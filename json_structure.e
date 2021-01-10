@@ -25,15 +25,16 @@ feature {NONE} -- Initialization
 
 		end
 
-feature 
+feature
 	make_empty
 		local
 			lista : LINKED_LIST[STRING]
+			lista2 : LINKED_LIST[STRING]
 			json_a : JSON_ARRAY
 		do
 			create lista.make
 		 	nombre_valores := lista
-		 	create lista.make
+		 	create lista2.make
 			tipo_valores:= lista
 			create json_a.make_empty
 			json_array:= json_a

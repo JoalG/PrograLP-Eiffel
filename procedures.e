@@ -96,6 +96,7 @@ feature --OPTION 1
 							or
 							tipo_valores.item.out.is_equal ("N") then
 
+							valores_actuales.item.replace_substring_all (",", ".")
 							json_temp.put_real (valores_actuales.item.to_double, nombre_valores.item)
 
 					else
@@ -121,8 +122,11 @@ feature --OPTION 1
 
 			data_base.insert_json (nombre_valores,tipo_valores,archivo_actual,name)
 
-			archivo_actual:=data_base.get_json (io.last_string)
-			print("ACA "+ archivo_actual.representation+ "%N")
+			if attached data_base.get_json (io.last_string) as json_structure_temp  then
+				archivo_actual:=json_structure_temp.get_valores
+				print("ACA "+ archivo_actual.representation+ "%N")
+
+			end
 
 			Result:= True
 		end
@@ -133,13 +137,58 @@ feature --OPTION 2
 	save (name:STRING ; file_name:STRING)
 		local json_array : JSON_ARRAY
 		do
-			json_array := data_base.get_json (name)
-			file_manager.write_json (json_array,file_name)
-	
+			if attached data_base.get_json (name) as json_structure_temp then
+				json_array := json_structure_temp.get_valores
+				file_manager.write_json (json_array,file_name)
+				print("AIUDA BRO")
+			else
+				print("MAMANDO PICHA")
+
+			end
+
 
 		end
 
 
+
+feature --OPTION 3
+	savecsv (name:STRING ; file_name:STRING)
+		local json_structure : JSON_STRUCTURE
+		do
+			if attached data_base.get_json (name) as json_structure_temp then
+				json_structure := json_structure_temp
+				file_manager.write_csv (json_structure,file_name)
+				print("AIUDA BRO")
+			else
+				print("MAMANDO PICHA")
+
+			end
+
+
+		end
+
+feature --Opcion 4
+	select_op (name1:STRING ; name2:STRING ; atributo:STRING ; valor:STRING )
+		local
+			json_structure : JSON_STRUCTURE
+			new_json_structure: JSON_STRUCTURE
+		do
+			if attached data_base.get_json (name1) as json_structure_temp then
+				across json_structure_temp.get_valores as json_temp loop
+				print("Recorriendo el array")
+
+					if attached {JSON_OBJECT} json_temp.item as json_object  then
+
+						print("asccesa al json obj")
+
+					end
+				end
+			else
+				print("MAMANDO PICHA")
+
+			end
+
+		end
 
 feature
 	print_list (lista: LIST[STRING])
