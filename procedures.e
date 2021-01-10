@@ -172,19 +172,34 @@ feature --Opcion 4
 		local
 			json_structure : JSON_STRUCTURE
 			new_json_structure: JSON_STRUCTURE
+			archivo_actual : JSON_ARRAY
 		do
 			if attached data_base.get_json (name1) as json_structure_temp then
+				create archivo_actual.make_empty
 				across json_structure_temp.get_valores as json_temp loop
 				print("Recorriendo el array")
 
 					if attached {JSON_OBJECT} json_temp.item as json_object  then
 
-						print("asccesa al json obj")
+
+						print("7"+atributo+"7")
+						if attached json_object.item (atributo) as atribute then
+							print ("atributo")
+							if atribute.representation.is_equal ("%""+valor+"%"") then
+								print ("concuerda ")
+								archivo_actual.add (json_object)
+							else
+								print ("NOconcuerda ")
+							end
+
+						end
+
 
 					end
+
 				end
-			else
-				print("MAMANDO PICHA")
+				data_base.insert_json (json_structure_temp.get_nombres,json_structure_temp.get_tipos,archivo_actual ,name2)
+
 
 			end
 

@@ -81,7 +81,7 @@ feature
 			end
 			valor_op4.remove_tail (1)
 			print(valor_op4)
-			procedures.select_op (tokens.at (2), tokens.at (3), tokens.at (5), valor_op4)
+			procedures.select_op (tokens.at (2), tokens.at (3), tokens.at (4), valor_op4)
 
 
 

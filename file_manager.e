@@ -107,6 +107,7 @@ feature
 
 							if json_value.is_number then
 								value_actual.replace_substring_all (".", ",")
+
 							elseif json_value.is_null then
 								value_actual.replace_substring_all ("null", "")
 
