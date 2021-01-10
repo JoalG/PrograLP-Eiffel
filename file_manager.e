@@ -40,6 +40,18 @@ feature -- READ
 
 --write json
 
+feature
+	write_json(json_array :JSON_ARRAY ; file_name: STRING )
+		local
+			file : PLAIN_TEXT_FILE
+	 	do
+
+	 		create file.make_open_write (file_name)
+	 		file.putstring (json_array.representation)
+
+
+	 	end
+
 
 
 invariant

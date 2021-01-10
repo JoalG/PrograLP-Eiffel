@@ -13,21 +13,26 @@ create
 
 
 feature {NONE} -- Initialization
+	nombre_datos: HASH_TABLE[LIST[STRING],STRING]
+	tipo_datos: HASH_TABLE[LIST[STRING],STRING]
 	datos:  HASH_TABLE[JSON_ARRAY,STRING]
 
 
 	make
 	do
 		create datos.make (100)
-
+		create tipo_datos.make (100)
+		create nombre_datos.make (100)
 
 	end
 
 
 feature
-	insert_json(json: JSON_ARRAY;nombre:STRING)
+	insert_json(nombres : LIST[STRING] ;tipos : LIST[STRING] ; datos_json: JSON_ARRAY;nombre:STRING)
 	do
-		datos.put (json, nombre)
+		datos.put (datos_json, nombre)
+		tipo_datos.put (tipos, nombre)
+		nombre_datos.put (nombres, nombre)
 	end
 
 
@@ -37,7 +42,6 @@ feature --gets
 		do Result:=datos end
 
 	get_json(key_json : STRING) : JSON_ARRAY
-
 		local default_json:  JSON_ARRAY
 
 		do

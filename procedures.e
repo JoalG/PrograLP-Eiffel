@@ -42,6 +42,7 @@ feature --OPTION 1
 
 			archivo_actual : JSON_ARRAY
 			json_temp: JSON_OBJECT
+			json_structure : JSON_STRUCTURE
 
 
 
@@ -102,12 +103,13 @@ feature --OPTION 1
 
 
 					end
+
 					nombre_valores.forth
 					tipo_valores.forth
 					valores_actuales.forth
 
 				end
-
+				print(json_temp.representation+"%N")
 				archivo_actual.add (json_temp)
 				entrada.read_line
 
@@ -117,13 +119,25 @@ feature --OPTION 1
 			io.putstring ("Listo %N> ")
 
 
-			data_base.insert_json (archivo_actual,name)
+			data_base.insert_json (nombre_valores,tipo_valores,archivo_actual,name)
 
 			archivo_actual:=data_base.get_json (io.last_string)
 			print("ACA "+ archivo_actual.representation+ "%N")
+
+			Result:= True
 		end
 
 
+
+feature --OPTION 2
+	save (name:STRING ; file_name:STRING)
+		local json_array : JSON_ARRAY
+		do
+			json_array := data_base.get_json (name)
+			file_manager.write_json (json_array,file_name)
+	
+
+		end
 
 
 
