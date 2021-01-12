@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 
 			print("Bienvenido al sistema JSON-CSV %N")
-			print("Ingrese el comando deseado %N")
+			print("Autor: Jose Alfredo Gamboa Roman 2019196401 %N")
 			start
 
 		--	io.read_line
@@ -41,32 +41,83 @@ feature
 	start
 
 		local
-		valor_op4 : STRING
-		valores_op5: LIST[STRING]
+		resultado : BOOLEAN
 
 		do
 
-
+		print("%NIngrese el comando deseado %N>")
 		io.read_line
 		tokens := io.last_string.split (' ')
-		procedures.print_list (tokens)
+		--procedures.print_list (tokens)
 
+		resultado:=False
 
 		if tokens.at (1).is_equal ("load") then
-			if load_option then
-				print("SI LO HIZO ")
-			else
-				print ("No mae ")
-			end
+			resultado := load_option
 
 		elseif tokens.at (1).is_equal ("save")  then
-			procedures.save (tokens.at (2), tokens.at (3))
+			resultado := save_option
 
 		elseif tokens.at (1).is_equal ("savecsv")  then
-			procedures.savecsv (tokens.at (2), tokens.at (3))
+			resultado := savecsv_option
 
 		elseif tokens.at (1).is_equal ("select") then
+			resultado := select_option
 
+
+		elseif tokens.at (1).is_equal ("project") then
+
+			resultado := project_option
+		end
+
+		if resultado then
+			print("Comando ejecutado exitosamente %N")
+		else
+			print("Comando rechazado %N")
+
+		end
+
+		if not tokens.at (1).is_equal ("salir") then
+			start
+		else
+			print("Gracias por usar el sistema.")
+		end
+
+
+
+		end
+
+
+
+feature
+
+	load_option : BOOLEAN
+		do
+			Result := procedures.load (tokens.at (2), tokens.at (3))
+		end
+
+feature
+
+	save_option: BOOLEAN
+		do
+			Result := procedures.save (tokens.at (2), tokens.at (3))
+		end
+
+feature
+
+	savecsv_option: BOOLEAN
+		do
+			Result := procedures.savecsv (tokens.at (2), tokens.at (3))
+		end
+
+
+
+feature
+
+	select_option : BOOLEAN
+		local
+			valor_op4 : STRING
+		do
 			valor_op4 := ""
 			tokens.move (5)
 			from
@@ -80,29 +131,32 @@ feature
 				tokens.forth
 			end
 			valor_op4.remove_tail (1)
-			print(valor_op4)
-			procedures.select_op (tokens.at (2), tokens.at (3), tokens.at (4), valor_op4)
+			--print(valor_op4)
 
-
-
+			Result := procedures.select_op (tokens.at (2), tokens.at (3), tokens.at (4), valor_op4)
 		end
-
-		if not tokens.at (1).is_equal ("salir") then
-			start
-		else
-			print("Gracias por usar el sistema.")
-		end
-
-
-		end
-
 
 
 feature
-
-	load_option : BOOLEAN
+	project_option : BOOLEAN
+		local
+			valores_op5 : LINKED_LIST[STRING]
 		do
-			Result:=procedures.load (tokens.at (2), tokens.at (3))
+			create valores_op5.make
+			tokens.move (3)
+		--	procedures.print_list (tokens)
+			from
+				tokens.forth
+			until
+				tokens.off
+			loop
+				valores_op5.extend (tokens.item)
+				tokens.forth
+			end
+
+			--procedures.print_list (valores_op5)
+
+			result := procedures.project (tokens.at (2), tokens.at (3), valores_op5)
 		end
 
 

@@ -94,7 +94,7 @@ feature
 
 			--AGREGAR LAS FILAS
 			across json_structure.get_valores as json_temp loop
-				print("Recorriendo el array")
+				--print("Recorriendo el array")
 				file.new_line
 				string_csv := ""
 				if attached {JSON_OBJECT} json_temp.item as json_object  then
