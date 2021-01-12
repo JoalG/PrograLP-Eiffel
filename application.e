@@ -156,7 +156,15 @@ feature
 
 			--procedures.print_list (valores_op5)
 
-			result := procedures.project (tokens.at (2), tokens.at (3), valores_op5)
+			if valores_op5.count >= 1 and valores_op5.count <= 5 then
+				Result := procedures.project (tokens.at (2), tokens.at (3), valores_op5)
+
+			else
+				print("Debe indicar entre 1 y 5 argumentos %N")
+				Result:= False
+			end
+
+
 		end
 
 
